@@ -314,7 +314,7 @@ const ChatDialog = ({ onClose }: ChatDialogProps) => {
         )}
 
         {/* Input Area */}
-        <div className="p-6 pt-4 border-t border-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm bg-gray-900/50">
+        <div className="p-6 pt-4 border-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm bg-gray-900/50">
           <div className="flex items-end gap-3">
             <div className="flex-1 relative">
               <textarea
@@ -339,7 +339,7 @@ const ChatDialog = ({ onClose }: ChatDialogProps) => {
             <Button
               onClick={sendMessage}
               disabled={!inputMessage.trim() || isLoading}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-600 disabled:to-gray-700 text-white hover:cursor-pointer transition-all duration-300 p-4 rounded-xl shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed group self-center  "
+              className="bg-purple-600 hover:bg-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white hover:cursor-pointer transition-all duration-300 p-4 rounded-xl shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed group self-center  "
             >
               {isLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

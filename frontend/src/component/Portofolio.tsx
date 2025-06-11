@@ -4,6 +4,7 @@ import Projects from "./Projects";
 import Hero from "./Hero";
 import Experience from "./Experience";
 import AmongusParticles from "./AmogusParticles";
+import BentoHero from "./BentoHero";
 
 export default function Portfolio() {
   return (
@@ -11,10 +12,20 @@ export default function Portfolio() {
       {/* HERO SECTION */}
       <section
         id="home"
-        className="flex flex-col items-center justify-center h-screen px-4 text-center relative overflow-hidden"
+        className="flex flex-col items-center justify-center gap-0 h-screen px-4 text-center relative"
       >
-        {/* <AmongusParticles/> */}
-        <Hero />
+        <div className="absolute inset-0">
+          <AmongusParticles />
+        </div>
+
+        {/* Content on top */}
+        <div className="relative z-10">
+          <BentoHero />
+        </div>
+
+        {/* <AmongusParticles>
+          <BentoHero />
+        </AmongusParticles> */}
       </section>
 
       {/* EXPERIENCE SECTION */}
@@ -40,7 +51,7 @@ export default function Portfolio() {
       {/* Footer */}
       <footer className="py-6 px-6 text-center text-gray-400 text-sm">
         <div className="max-w-6xl mx-auto">
-          <p>© {new Date().getFullYear()} Built with pure cocaine.</p>
+          <p>© {new Date().getFullYear()} Running on hopes and dreams</p>
         </div>
       </footer>
     </main>

@@ -125,52 +125,6 @@ const SkillsSection = () => {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* Fun terminal-like skill progress at the bottom */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 1 }}
-        className="mt-16 bg-black/50 backdrop-blur-sm p-4 rounded-lg font-mono text-sm border border-purple-900/20 max-w-xl mx-auto"
-      >
-        <div className="text-green-400 mb-2">
-          -- analyze_skills.sh --scan=brain
-        </div>
-        <div className="text-gray-400 mb-1">Scanning developer brain...</div>
-        <div className="flex items-center text-yellow-400">
-          <span>Gambling dependency:</span>
-          <div className="ml-2 h-2 bg-gray-700 rounded-full flex-grow overflow-hidden">
-            <div
-              className="h-full bg-yellow-500 animate-pulse"
-              style={{ width: "69%" }}
-            ></div>
-          </div>
-          <span className="ml-2">69%</span>
-        </div>
-        <div className="flex items-center text-purple-400 mt-1">
-          <span>Bug creation:</span>
-          <div className="ml-2 h-2 bg-gray-700 rounded-full flex-grow overflow-hidden">
-            <div
-              className="h-full bg-purple-500 animate-pulse"
-              style={{ width: "100%" }}
-            ></div>
-          </div>
-          <span className="ml-2">100%</span>
-        </div>
-        <div className="flex items-center text-cyan-400 mt-1">
-          <span>Bug fixing:</span>
-          <div className="ml-2 h-2 bg-gray-700 rounded-full flex-grow overflow-hidden">
-            <div
-              className="h-full bg-cyan-500 animate-pulse"
-              style={{ width: "5%" }}
-            ></div>
-          </div>
-          <span className="ml-2">0%</span>
-        </div>
-        <div className="text-gray-500 mt-2 text-xs italic">
-          * Results may vary based on high gambling dopamine
-        </div>
-      </motion.div>
     </section>
   );
 };

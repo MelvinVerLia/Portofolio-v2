@@ -75,7 +75,7 @@ const chat = async (req, res) => {
     while (retries > 0) {
       try {
         result = await model.generateContent(contextPrompt);
-        break; // Success, exit retry loop
+        break; 
       } catch (apiError) {
         if (apiError.status === 429) {
           retries--;

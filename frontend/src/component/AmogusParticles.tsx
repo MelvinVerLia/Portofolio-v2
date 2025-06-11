@@ -26,6 +26,10 @@ const AmongusParticles = () => {
       },
       fpsLimit: 60,
       detectRetina: true,
+      fullScreen: {
+        enable: false,
+        zIndex: 0,
+      },
       particles: {
         groups: {
           z5000: { number: { value: 70 }, zIndex: { value: 5000 } },
@@ -48,11 +52,11 @@ const AmongusParticles = () => {
           value: { min: 0.1, max: 1 },
           animation: { enable: false },
         },
-        size: { value: 3 },
+        size: { value: 1.5 },
         move: {
           angle: { value: 10 },
           enable: true,
-          speed: 5,
+          speed: 1,
           direction: "right",
           random: false,
           straight: false,
@@ -65,8 +69,8 @@ const AmongusParticles = () => {
       },
       interactivity: {
         events: {
-          onHover: { enable: true, mode: "repulse" },
-          onClick: { enable: true, mode: "push" },
+          // onHover: { enable: true, mode: "bubble" },
+          // onClick: { enable: true, mode: "push" },
           resize: {
             enable: true,
           },
@@ -82,18 +86,18 @@ const AmongusParticles = () => {
             duration: 2,
             opacity: 0.8,
           },
-          repulse: { distance: 100 },
-          push: {
-            quantity: 4,
-            groups: ["z5000", "z7500", "z2500", "z1000"],
-          },
+          repulse: { distance: 50 },
+          // push: {
+          //   quantity: 1,
+          //   groups: ["z5000", "z7500", "z2500", "z1000"],
+          // },
           remove: { quantity: 2 },
         },
       },
       emitters: {
-        position: { y: 55, x: -30 },
-        rate: { delay: 7, quantity: 1 },
-        size: { width: 0, height: 0 },
+        position: { y: Math.random() * 100, x: -30 },
+        rate: { delay: 1, quantity: 4 },
+        size: { width: 200, height: 200 }, // spread area
         particles: {
           shape: {
             type: "images",
@@ -101,8 +105,8 @@ const AmongusParticles = () => {
               images: [
                 {
                   src: "https://particles.js.org/images/amongus_blue.png",
-                  width: 205,
-                  height: 267,
+                  width: 265,
+                  height: 265,
                 },
                 {
                   src: "https://particles.js.org/images/amongus_cyan.png",
@@ -142,17 +146,17 @@ const AmongusParticles = () => {
               ],
             },
           },
-          opacity: { value: 1 },
-          size: { value: 40 },
+          opacity: { value: 2 },
+          size: { value: 100 },
           move: {
             speed: 10,
             outModes: { default: "destroy", left: "none" },
-            straight: true,
+            // straight: true,
           },
           zIndex: { value: 0 },
           rotate: {
             value: { min: 0, max: 360 },
-            animation: { enable: true, speed: 10, sync: true },
+            animation: { enable: true, speed: 5, sync: true },
           },
         },
       },
@@ -163,13 +167,16 @@ const AmongusParticles = () => {
   if (!init) return null;
 
   return (
-    <div className="relative w-full h-[300px]">
+    <div className="relative w-full h-screen overflow-hidden">
       <Particles
         id="amongus-particles"
         particlesLoaded={particlesLoaded}
         options={options}
-        className="absolute inset-0"
+        className="w-full h-full"
       />
+      {/* <div className="relative z-10 w-full h-full flex flex-col items-center justify-center">
+        {children}
+      </div> */}
     </div>
   );
 };

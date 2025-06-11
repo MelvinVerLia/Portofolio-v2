@@ -27,11 +27,6 @@ function App() {
       label: "PDF Summarizer",
       onClick: () => setOpenDialog("image"),
     },
-    {
-      icon: File,
-      label: "Chatbot",
-      onClick: () => setOpenDialog("chat"),
-    }
   ];
 
   return (
