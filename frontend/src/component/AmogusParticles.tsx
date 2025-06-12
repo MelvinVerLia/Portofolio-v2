@@ -24,7 +24,7 @@ const AmongusParticles = () => {
       background: {
         color: "transparent",
       },
-      fpsLimit: 60,
+      fpsLimit: 144,
       detectRetina: true,
       fullScreen: {
         enable: false,
@@ -87,79 +87,85 @@ const AmongusParticles = () => {
             opacity: 0.8,
           },
           repulse: { distance: 50 },
-          // push: {
-          //   quantity: 1,
-          //   groups: ["z5000", "z7500", "z2500", "z1000"],
-          // },
+          push: {
+            quantity: 1,
+            groups: ["z5000", "z7500", "z2500", "z1000"],
+          },
           remove: { quantity: 2 },
         },
       },
-      emitters: {
-        position: { y: Math.random() * 100, x: -30 },
-        rate: { delay: 1, quantity: 4 },
-        size: { width: 200, height: 200 }, // spread area
-        particles: {
-          shape: {
-            type: "images",
-            options: {
-              images: [
-                {
-                  src: "https://particles.js.org/images/amongus_blue.png",
-                  width: 265,
-                  height: 265,
-                },
-                {
-                  src: "https://particles.js.org/images/amongus_cyan.png",
-                  width: 207,
-                  height: 265,
-                },
-                {
-                  src: "https://particles.js.org/images/amongus_green.png",
-                  width: 204,
-                  height: 266,
-                },
-                {
-                  src: "https://particles.js.org/images/amongus_lime.png",
-                  width: 206,
-                  height: 267,
-                },
-                {
-                  src: "https://particles.js.org/images/amongus_orange.png",
-                  width: 205,
-                  height: 265,
-                },
-                {
-                  src: "https://particles.js.org/images/amongus_pink.png",
-                  width: 205,
-                  height: 265,
-                },
-                {
-                  src: "https://particles.js.org/images/amongus_red.png",
-                  width: 204,
-                  height: 267,
-                },
-                {
-                  src: "https://particles.js.org/images/amongus_white.png",
-                  width: 205,
-                  height: 267,
-                },
-              ],
+      emitters: [
+        {
+          position: {
+            x: -10,
+            y: 50,
+          },
+          rate: { delay: 10, quantity: 2 },
+          size: { width: 30, height: 100 },
+          direction: "right",
+          particles: {
+            shape: {
+              type: "images",
+              options: {
+                images: [
+                  {
+                    src: "https://particles.js.org/images/amongus_blue.png",
+                    width: 265,
+                    height: 265,
+                  },
+                  {
+                    src: "https://particles.js.org/images/amongus_cyan.png",
+                    width: 207,
+                    height: 265,
+                  },
+                  {
+                    src: "https://particles.js.org/images/amongus_green.png",
+                    width: 204,
+                    height: 266,
+                  },
+                  {
+                    src: "https://particles.js.org/images/amongus_lime.png",
+                    width: 206,
+                    height: 267,
+                  },
+                  {
+                    src: "https://particles.js.org/images/amongus_orange.png",
+                    width: 205,
+                    height: 265,
+                  },
+                  {
+                    src: "https://particles.js.org/images/amongus_pink.png",
+                    width: 205,
+                    height: 265,
+                  },
+                  {
+                    src: "https://particles.js.org/images/amongus_red.png",
+                    width: 204,
+                    height: 267,
+                  },
+                  {
+                    src: "https://particles.js.org/images/amongus_white.png",
+                    width: 205,
+                    height: 267,
+                  },
+                ],
+              },
+            },
+            opacity: { value: 2 },
+            size: { value: 10 },
+            move: {
+              speed: 5,
+              outModes: { default: "destroy", left: "none" },
+              // straight: true,
+            },
+            zIndex: { value: 0 },
+            rotate: {
+              value: { min: 0, max: 360 },
+              animation: { enable: true, speed: 4, sync: false },
             },
           },
-          opacity: { value: 2 },
-          size: { value: 100 },
-          move: {
-            speed: 10,
-            outModes: { default: "destroy", left: "none" },
-            // straight: true,
-          },
-          zIndex: { value: 0 },
-          rotate: {
-            value: { min: 0, max: 360 },
-            animation: { enable: true, speed: 5, sync: true },
-          },
         },
-      },
+      ],
     }),
     []
   );

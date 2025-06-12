@@ -60,9 +60,13 @@ const YoutubeConverter = () => {
         quality: format === "mp4" ? videoQuality : audioQuality,
       };
 
-      const response = await ConvertFinder.post("/api/download", requestData, {
-        responseType: "blob",
-      });
+      const response = await ConvertFinder.post(
+        "/api/youtube/download",
+        requestData,
+        {
+          responseType: "blob",
+        }
+      );
 
       // Determine content type based on format
       const contentType = format === "mp4" ? "video/mp4" : "audio/mpeg";
@@ -94,183 +98,153 @@ const YoutubeConverter = () => {
   };
 
   return (
-    <div>
-      <div>
-        <div
-          className="bg-gray-900 shadow-xl max-w-3xl"
-          style={{ boxShadow: "0 0 20px 5px rgba(190, 100, 247, 0.8)" }}
-        >
-          <div>
-            <div className="text-2xl font-bold text-purple-400 text-center">
-              YouTube Downloader
-            </div>
-            <div className="text-gray-300 text-center">
-              Download videos or extract audio from YouTube
-            </div>
+    <div className="bg-gray-900 shadow-xl max-w-3xl border border-gray-950 rounded-xl p-5 h-full flex flex-col justify-center">
+      <div className="my-4">
+        <div className="flex items-center space-x-2 mb-4">
+          <div className="p-2 bg-purple-900/50 rounded-lg">
+            <Youtube className="w-6 h-6 text-purple-400" />
           </div>
-
-          <div className="my-4">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="p-2 bg-purple-900/50 rounded-lg">
-                <Youtube className="w-6 h-6 text-purple-400" />
-              </div>
-              <input
-                type="text"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="Enter YouTube URL"
-                className="flex-1 p-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-              <Button
-                onClick={fetchVideoInfo}
-                disabled={!url || fetchingInfo}
-                className="bg-purple-800 hover:bg-purple-700 text-white hover:cursor-pointer transition-colors duration-300"
-              >
-                {fetchingInfo ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  "Preview"
-                )}
-              </Button>
-            </div>
-
-            {error && (
-              <div className="text-red-400 text-sm mb-3 bg-red-900/20 p-2 rounded-md">
-                {error}
-              </div>
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Enter YouTube URL"
+            className="flex-1 p-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+          <Button
+            onClick={fetchVideoInfo}
+            disabled={!url || fetchingInfo}
+            className="bg-purple-800 hover:bg-purple-700 text-white hover:cursor-pointer transition-colors duration-300"
+          >
+            {fetchingInfo ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              "Preview"
             )}
-
-            {videoInfo && (
-              <div className="mb-4 bg-gray-800/50 p-3 rounded-lg">
-                <div className="flex flex-col md:flex-row gap-4">
-                  {videoInfo.thumbnail && (
-                    <div className="w-full md:w-1/3">
-                      <img
-                        src={videoInfo.thumbnail}
-                        alt={videoInfo.title}
-                        className="rounded-md w-full h-auto object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="w-full md:w-2/3">
-                    <h3 className="text-lg font-semibold text-white mb-1">
-                      {videoInfo.title}
-                    </h3>
-                    <p className="text-gray-400 text-sm mb-2">
-                      {videoInfo.channel}
-                    </p>
-                    <div className="flex items-center text-sm text-gray-400 mb-2">
-                      <Film className="w-4 h-4 mr-1" />
-                      <span>{videoInfo.duration}</span>
-                    </div>
-                    {videoInfo.description && (
-                      <p className="text-gray-300 text-sm line-clamp-3">
-                        {videoInfo.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <Tabs
-              defaultValue="mp4"
-              onValueChange={setFormat}
-              className="w-full"
-            >
-              <TabsList className="grid grid-cols-2 w-full bg-gray-800">
-                <TabsTrigger
-                  value="mp4"
-                  className="group flex items-center gap-2 hover:cursor-pointer text-white data-[state=active]:text-black"
-                >
-                  <Video className="w-4 h-4 group-data-[state=active]:text-black" />
-                  Video (MP4)
-                </TabsTrigger>
-                <TabsTrigger
-                  value="mp3"
-                  className="group flex items-center gap-2 hover:cursor-pointer text-white data-[state=active]:text-black"
-                >
-                  <Music className="w-4 h-4 group-data-[state=active]:text-black" />
-                  Audio (MP3)
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="mp4" className="mt-4">
-                <div className="space-y-2">
-                  <label className="text-sm text-gray-300">Video Quality</label>
-                  <Select value={videoQuality} onValueChange={setVideoQuality}>
-                    <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
-                      <SelectValue placeholder="Select quality" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
-                      <SelectItem value="4k">4K (2160p)</SelectItem>
-                      <SelectItem value="1080p">Full HD (1080p)</SelectItem>
-                      <SelectItem value="720p">HD (720p)</SelectItem>
-                      <SelectItem value="480p">SD (480p)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="mp3" className="mt-4">
-                <div className="space-y-2">
-                  <label className="text-sm text-gray-300">Audio Quality</label>
-                  <Select value={audioQuality} onValueChange={setAudioQuality}>
-                    <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
-                      <SelectValue placeholder="Select quality" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
-                      <SelectItem value="320">
-                        High Quality (320 kbps)
-                      </SelectItem>
-                      <SelectItem value="256">
-                        Good Quality (256 kbps)
-                      </SelectItem>
-                      <SelectItem value="192">
-                        Standard Quality (192 kbps)
-                      </SelectItem>
-                      <SelectItem value="128">
-                        Low Quality (128 kbps)
-                      </SelectItem>
-                      <SelectItem value="64">
-                        Very Low Quality (64 kbps)
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <div className="text-gray-400 text-xs mt-1">
-                    <p>
-                      Higher bitrate provides better audio quality but results
-                      in larger file sizes.
-                    </p>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
-
-          <div className="flex flex-row gap-2 justify-end mt-2">
-            <Button
-              variant="outline"
-              className="bg-purple-800 hover:bg-purple-700 text-white hover:text-white border-0 hover:cursor-pointer transition-colors duration-300"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleDownload}
-              disabled={!url || isLoading}
-              className="bg-purple-800 hover:bg-purple-700 text-white hover:cursor-pointer transition-colors duration-300"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                `Download ${format.toUpperCase()}`
-              )}
-            </Button>
-          </div>
+          </Button>
         </div>
+
+        {error && (
+          <div className="text-red-400 text-sm mb-3 bg-red-900/20 p-2 rounded-md">
+            {error}
+          </div>
+        )}
+
+        {/* {videoInfo && (
+          <div className="mb-4 bg-gray-800/50 p-3 rounded-lg">
+            <div className="flex flex-col md:flex-row gap-4">
+              {videoInfo.thumbnail && (
+                <div className="w-full md:w-1/3">
+                  <img
+                    src={videoInfo.thumbnail}
+                    alt={videoInfo.title}
+                    className="rounded-md w-full h-auto object-cover"
+                  />
+                </div>
+              )}
+              <div className="w-full md:w-2/3">
+                <h3 className="text-lg font-semibold text-white mb-1">
+                  {videoInfo.title}
+                </h3>
+                <p className="text-gray-400 text-sm mb-2">
+                  {videoInfo.channel}
+                </p>
+                <div className="flex items-center text-sm text-gray-400 mb-2">
+                  <Film className="w-4 h-4 mr-1" />
+                  <span>{videoInfo.duration}</span>
+                </div>
+                {videoInfo.description && (
+                  <p className="text-gray-300 text-sm line-clamp-3">
+                    {videoInfo.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )} */}
+
+        <Tabs defaultValue="mp4" onValueChange={setFormat} className="w-full">
+          <TabsList className="grid grid-cols-2 w-full bg-gray-800">
+            <TabsTrigger
+              value="mp4"
+              className="group flex items-center gap-2 hover:cursor-pointer text-white data-[state=active]:text-black"
+            >
+              <Video className="w-4 h-4 group-data-[state=active]:text-black" />
+              Video (MP4)
+            </TabsTrigger>
+            <TabsTrigger
+              value="mp3"
+              className="group flex items-center gap-2 hover:cursor-pointer text-white data-[state=active]:text-black"
+            >
+              <Music className="w-4 h-4 group-data-[state=active]:text-black" />
+              Audio (MP3)
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="mp4" className="mt-4">
+            <div className="space-y-2">
+              <Select value={videoQuality} onValueChange={setVideoQuality}>
+                <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
+                  <SelectValue placeholder="Select quality" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
+                  <SelectItem value="4k">4K (2160p)</SelectItem>
+                  <SelectItem value="1080p">Full HD (1080p)</SelectItem>
+                  <SelectItem value="720p">HD (720p)</SelectItem>
+                  <SelectItem value="480p">SD (480p)</SelectItem>
+                </SelectContent>
+              </Select>
+              <div className="text-gray-400 text-xs mt-1">
+                <p>Higher quality results in larger file sizes.</p>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="mp3" className="mt-4">
+            <div className="space-y-2">
+              <Select value={audioQuality} onValueChange={setAudioQuality}>
+                <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
+                  <SelectValue placeholder="Select quality" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
+                  <SelectItem value="320">High Quality (320 kbps)</SelectItem>
+                  <SelectItem value="256">Good Quality (256 kbps)</SelectItem>
+                  <SelectItem value="192">
+                    Standard Quality (192 kbps)
+                  </SelectItem>
+                  <SelectItem value="128">Low Quality (128 kbps)</SelectItem>
+                  <SelectItem value="64">Very Low Quality (64 kbps)</SelectItem>
+                </SelectContent>
+              </Select>
+              <div className="text-gray-400 text-xs mt-1">
+                <p>Higher quality results in larger file sizes.</p>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      <div className="flex flex-row gap-2 justify-end mt-2">
+        <Button
+          variant="outline"
+          className="bg-purple-800 hover:bg-purple-700 text-white hover:text-white border-0 hover:cursor-pointer transition-colors duration-300"
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={handleDownload}
+          disabled={!url || isLoading}
+          className="bg-purple-800 hover:bg-purple-700 text-white hover:cursor-pointer transition-colors duration-300"
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Processing...
+            </>
+          ) : (
+            `Download ${format.toUpperCase()}`
+          )}
+        </Button>
       </div>
     </div>
   );

@@ -174,22 +174,22 @@ const youtube_downloader = async (req, res) => {
       console.log("Starting MP3 conversion");
 
       // For mp3, download audio only
-
+      console.log(`Selected quality: ${quality}`);
       let audioBitrate;
       switch (quality) {
-        case "high": // High Quality (320 kbps)
+        case "320": // High Quality (320 kbps)
           audioBitrate = 320;
           break;
-        case "good": // Good Quality (256 kbps)
+        case "256": // Good Quality (256 kbps)
           audioBitrate = 256;
           break;
-        case "standard": // Standard Quality (192 kbps)
+        case "192": // Standard Quality (192 kbps)
           audioBitrate = 192;
           break;
-        case "low": // Low Quality (128 kbps)
+        case "128": // Low Quality (128 kbps)
           audioBitrate = 128;
           break;
-        case "verylow": // Very Low Quality (64 kbps)
+        case "64": // Very Low Quality (64 kbps)
           audioBitrate = 64;
           break;
         default:
