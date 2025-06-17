@@ -1,8 +1,15 @@
 import { Button } from "@/components/ui/button";
 import ConvertFinder from "../../API/ConvertFinder";
 import { FileImage, Loader2, Upload, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ImageConverter = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -10,6 +17,17 @@ const ImageConverter = () => {
   const [dragActive, setDragActive] = useState(false);
   const [format, setFormat] = useState("jpeg");
   const [quality, setQuality] = useState(1);
+
+  const bounceAnimation = useMemo(() => ({ y: [0, -10, 0] }), []);
+  const bounceTransition = useMemo(
+    () => ({
+      duration: 1.3,
+      repeat: Infinity,
+      repeatType: "loop" as "loop",
+      ease: "easeInOut",
+    }),
+    []
+  );
 
   const handleUpload = async () => {
     if (!selectedFile) return;
@@ -64,30 +82,41 @@ const ImageConverter = () => {
   return (
     <div className="h-full flex flex-col space-y-4">
       {!selectedFile ? (
-        <label htmlFor="image-upload" className="cursor-pointer flex-1">
+        <motion.label
+          htmlFor="image-upload"
+          className="cursor-pointer flex-1"
+          whileHover={{ scale: 1.01 }}
+          transition={{ type: "spring", stiffness: 600 }}
+        >
           <motion.div
-            className={`border-2 border-dashed rounded-xl p-6 text-center h-full flex flex-col items-center justify-center transition-all duration-300 ${
+            className={`border-2 border-dashed rounded-xl p-6 text-center h-full flex flex-col items-center justify-center transition-all duration-350 ${
               dragActive
                 ? "border-purple-400 bg-purple-500/10 shadow-lg shadow-purple-500/20"
-                : "border-slate-600 hover:border-purple-400 bg-slate-800/30 hover:bg-slate-700/30"
+                : "border-purple-600/50 hover:border-purple-500 bg-slate-700/20 hover:bg-slate-700/30"
             }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
             onDrop={handleDrop}
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.01 }}
           >
             <div className="flex flex-col items-center justify-center space-y-4">
-              <motion.div 
-                className="p-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-lg"
-                whileHover={{ rotate: 10 }}
+              <motion.div
+                className="p-4 bg-purple-600/20 rounded-full shadow-lg border-purple-500/30"
+                animate={dragActive ? bounceAnimation : { y: 0 }}
+                transition={dragActive ? bounceTransition : { duration: 0.2 }}
               >
-                <FileImage className="w-8 h-8 text-white" />
+                <FileImage className="w-8 h-8 text-purple-400" />
               </motion.div>
               <div className="text-sm text-gray-300">
-                <span className="font-semibold text-white">Click to upload</span> or drag and drop
+                <span className="font-semibold text-white">
+                  Click to upload
+                </span>{" "}
+                or drag and drop
               </div>
-              <div className="text-xs text-gray-400">JPG, PNG, WEBP supported</div>
+              <div className="text-xs text-gray-400">
+                JPG, PNG, WEBP supported
+              </div>
               <input
                 type="file"
                 id="image-upload"
@@ -97,18 +126,18 @@ const ImageConverter = () => {
               />
             </div>
           </motion.div>
-        </label>
+        </motion.label>
       ) : (
         <div className="space-y-4 flex-1">
-          <motion.div 
+          <motion.div
             className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg">
-                  <FileImage className="w-5 h-5 text-white" />
+                <div className="p-2 bg-purple-600/20 rounded-lg">
+                  <FileImage className="w-5 h-5 text-purple-400" />
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span className="text-sm font-medium text-white truncate">
@@ -132,16 +161,19 @@ const ImageConverter = () => {
 
           <div className="grid gap-4">
             <div className="flex flex-col gap-2">
-              <label className="text-sm text-gray-300 font-medium">Output Format</label>
-              <select
-                className="bg-slate-800/50 text-white border border-slate-700/50 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
-                value={format}
-                onChange={(e) => setFormat(e.target.value)}
-              >
-                <option value="jpeg">JPEG</option>
-                <option value="png">PNG</option>
-                <option value="webp">WEBP</option>
-              </select>
+              <label className="text-sm text-gray-300 font-medium">
+                Output Format
+              </label>
+              <Select value={format} onValueChange={(e) => setFormat(e)}>
+                <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white hover:cursor-pointer">
+                  <SelectValue placeholder="Select quality" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700 text-white hover:cursor-pointer focus:ring-purple-500">
+                  <SelectItem value="jpeg">JPEG</SelectItem>
+                  <SelectItem value="png">PNG</SelectItem>
+                  <SelectItem value="webp">WEBP</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -154,7 +186,7 @@ const ImageConverter = () => {
                 max="100"
                 value={quality}
                 onChange={(e) => setQuality(parseInt(e.target.value))}
-                className="w-full accent-purple-500"
+                className="w-full accent-purple-600  transition-all duration-300 hover:cursor-pointer"
               />
             </div>
           </div>
@@ -162,14 +194,16 @@ const ImageConverter = () => {
           <motion.button
             onClick={handleUpload}
             disabled={!selectedFile || isLoading}
-            className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:from-blue-800 disabled:to-cyan-800 text-white rounded-xl text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-500/25"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-purple-800 disabled:to-purple-900 text-white rounded-lg text-sm font-medium transition-all duration-300 shadow-lg shadow-purple-600/30 hover:cursor-pointer disabled:cursor-not-allowed"
+            whileHover={{ scale: isLoading ? 1 : 1.01 }}
+            whileTap={{ scale: isLoading ? 1 : 0.99 }}
           >
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin inline" />
-                Converting...
+                <div className="flex items-center justify-center">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span>Converting...</span>
+                </div>
               </>
             ) : (
               "Convert Image"

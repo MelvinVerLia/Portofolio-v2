@@ -5,6 +5,7 @@ import { File, Play } from "lucide-react";
 import { FAB } from "./component/FAB";
 import { useState } from "react";
 import ActionDialog from "./component/ActionDialog";
+import { NotificationContextProvider } from "./context/NotificationContextProvider";
 
 function App() {
   const [openDialog, setOpenDialog] = useState<
@@ -27,17 +28,24 @@ function App() {
       label: "PDF Summarizer",
       onClick: () => setOpenDialog("image"),
     },
+    {
+      icon: File,
+      label: "Chatbot",
+      onClick: () => setOpenDialog("chat"),
+    },
   ];
 
   return (
     <>
-      {/* <Navbar /> */}
-      <Portfolio />
-      <FAB actions={actions} position="bottom-right" />
-      <ActionDialog
-        type={openDialog}
-        onClose={() => setOpenDialog(null)}
-      ></ActionDialog>
+      <NotificationContextProvider>
+        {/* <Navbar /> */}
+        <Portfolio />
+        <FAB actions={actions} position="bottom-right" />
+        <ActionDialog
+          type={openDialog}
+          onClose={() => setOpenDialog(null)}
+        ></ActionDialog>
+      </NotificationContextProvider>
     </>
   );
 }

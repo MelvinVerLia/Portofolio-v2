@@ -3,6 +3,7 @@ import ConvertFinder from "../../API/ConvertFinder";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useNotification } from "@/context/NotificationContextProvider";
 import {
   Select,
   SelectContent,
@@ -10,36 +11,53 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const YoutubeConverter = () => {
+  const { showNotification } = useNotification();
   const [isLoading, setIsLoading] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const [url, setUrl] = useState("");
   const [videoInfo, setVideoInfo] = useState<any>(null);
   const [fetchingInfo, setFetchingInfo] = useState(false);
   const [format, setFormat] = useState("mp4");
   const [videoQuality, setVideoQuality] = useState("1080p");
   const [audioQuality, setAudioQuality] = useState("320");
-  const [error, setError] = useState("");
 
   useEffect(() => {
-    // Clear video info when URL changes
     setVideoInfo(null);
-    setError("");
   }, [url]);
+
+  const getYoutubeVideoId = (url: string): string | null => {
+    const match = url.match(
+      /(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+    );
+    return match ? match[1] : null;
+  };
 
   const fetchVideoInfo = async () => {
     if (!url) return;
-
+    if (videoInfo) {
+      setShowDialog(true);
+      return;
+    }
     try {
-      console.log("Fetching video info for URL:", url);
+      setShowDialog(true);
       setFetchingInfo(true);
-      setError("");
+      console.log("Fetching video info for URL:", url);
       const response = await ConvertFinder.post("/api/youtube/info", { url });
       setVideoInfo(response.data);
       console.log("Video info fetched:", response.data);
-    } catch (error) {
-      console.error("Error fetching video info:", error);
-      setError(
+    } catch (err) {
+      console.log("Error fetching video info:", err);
+      showNotification(
+        "error",
         "Failed to fetch video information. Please check if the URL is valid."
       );
     } finally {
@@ -52,7 +70,6 @@ const YoutubeConverter = () => {
 
     try {
       setIsLoading(true);
-      setError("");
 
       const requestData = {
         url: url,
@@ -91,7 +108,10 @@ const YoutubeConverter = () => {
       console.log(`Downloaded ${format} from YouTube:`, url);
     } catch (error) {
       console.error(`Error during YouTube ${format} download:`, error);
-      setError("Download failed. Please try again.");
+      showNotification(
+        "error",
+        `Failed to download ${format.toUpperCase()}. Please try again.`
+      );
     } finally {
       setIsLoading(false);
     }
@@ -114,7 +134,7 @@ const YoutubeConverter = () => {
           <Button
             onClick={fetchVideoInfo}
             disabled={!url || fetchingInfo}
-            className="bg-purple-800 hover:bg-purple-700 text-white hover:cursor-pointer transition-colors duration-300"
+            className="bg-purple-800 hover:bg-purple-700 text-white hover:cursor-pointer transition-colors duration-300 h-10.5"
           >
             {fetchingInfo ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -124,44 +144,37 @@ const YoutubeConverter = () => {
           </Button>
         </div>
 
-        {error && (
-          <div className="text-red-400 text-sm mb-3 bg-red-900/20 p-2 rounded-md">
-            {error}
-          </div>
-        )}
+        {videoInfo && (
+          <Dialog open={showDialog} onOpenChange={setShowDialog}>
+            <DialogContent className="bg-gray-900 border border-gray-700 text-white max-w-3xl">
+              <DialogHeader>
+                <DialogTitle>{videoInfo.title}</DialogTitle>
+                <DialogDescription className="text-gray-400">
+                  From {videoInfo.channel}
+                </DialogDescription>
+              </DialogHeader>
 
-        {/* {videoInfo && (
-          <div className="mb-4 bg-gray-800/50 p-3 rounded-lg">
-            <div className="flex flex-col md:flex-row gap-4">
-              {videoInfo.thumbnail && (
-                <div className="w-full md:w-1/3">
-                  <img
-                    src={videoInfo.thumbnail}
-                    alt={videoInfo.title}
-                    className="rounded-md w-full h-auto object-cover"
-                  />
-                </div>
-              )}
-              <div className="w-full md:w-2/3">
-                <h3 className="text-lg font-semibold text-white mb-1">
-                  {videoInfo.title}
-                </h3>
-                <p className="text-gray-400 text-sm mb-2">
-                  {videoInfo.channel}
-                </p>
-                <div className="flex items-center text-sm text-gray-400 mb-2">
-                  <Film className="w-4 h-4 mr-1" />
-                  <span>{videoInfo.duration}</span>
-                </div>
-                {videoInfo.description && (
-                  <p className="text-gray-300 text-sm line-clamp-3">
-                    {videoInfo.description}
-                  </p>
-                )}
+              {/* 📺 Embedded YouTube Player */}
+              <div className="aspect-video w-full rounded-lg overflow-hidden border border-gray-700">
+                <iframe
+                  src={`https://www.youtube.com/embed/${getYoutubeVideoId(
+                    url
+                  )}`}
+                  title={videoInfo.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
               </div>
-            </div>
-          </div>
-        )} */}
+
+              {videoInfo.description && (
+                <p className="text-sm text-gray-300 whitespace-pre-wrap max-h-48 overflow-y-auto">
+                  {videoInfo.description}
+                </p>
+              )}
+            </DialogContent>
+          </Dialog>
+        )}
 
         <Tabs defaultValue="mp4" onValueChange={setFormat} className="w-full">
           <TabsList className="grid grid-cols-2 w-full bg-gray-800">

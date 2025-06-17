@@ -1,11 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type { Container, ISourceOptions } from "@tsparticles/engine";
-import { loadFull } from "tsparticles"; // You can swap to loadSlim, loadBasic, etc if needed
+import { loadFull } from "tsparticles";
+
+const konamiCode = ["ArrowUp", "ArrowUp"];
 
 const AmongusParticles = () => {
   const [init, setInit] = useState(false);
+  const [konamiProgress, setKonamiProgress] = useState(0);
 
+  const [showEmitter, setShowEmitter] = useState(false);
+
+  // Initialize tsParticles engine
   useEffect(() => {
     initParticlesEngine(async (engine) => {
       await loadFull(engine);
@@ -14,13 +20,34 @@ const AmongusParticles = () => {
     });
   }, []);
 
+  // Listen for Konami code
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === konamiCode[konamiProgress]) {
+        const nextProgress = konamiProgress + 1;
+        if (nextProgress == konamiCode.length) {
+          setShowEmitter(true);
+          setTimeout(() => setShowEmitter(false), 20000);
+          setKonamiProgress(0);
+        } else {
+          setKonamiProgress(nextProgress);
+        }
+      } else {
+        setKonamiProgress(0);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [konamiProgress]);
+
   const particlesLoaded = async (container?: Container): Promise<void> => {
     console.log("Particles loaded:", container);
   };
 
-  // @ts-ignore
-  const options: ISourceOptions = useMemo(
-    () => ({
+  
+  const options: ISourceOptions = useMemo(() => {
+    const baseConfig: ISourceOptions = {
       background: {
         color: "transparent",
       },
@@ -39,7 +66,7 @@ const AmongusParticles = () => {
         },
         number: {
           value: 300,
-          density: { enable: false, area: 800 },
+          // density: { enable: false, area: 800 },
         },
         color: {
           value: "#fff",
@@ -54,12 +81,11 @@ const AmongusParticles = () => {
         },
         size: { value: 1.5 },
         move: {
-          angle: { value: 10 },
+          // angle: { value: 10 },
           enable: true,
           speed: 1,
           direction: "right",
-          random: false,
-          straight: false,
+          straight: true,
           outModes: "out",
         },
         zIndex: {
@@ -69,8 +95,6 @@ const AmongusParticles = () => {
       },
       interactivity: {
         events: {
-          // onHover: { enable: true, mode: "bubble" },
-          // onClick: { enable: true, mode: "push" },
           resize: {
             enable: true,
           },
@@ -94,81 +118,86 @@ const AmongusParticles = () => {
           remove: { quantity: 2 },
         },
       },
-      emitters: [
-        {
-          position: {
-            x: -10,
-            y: 50,
-          },
-          rate: { delay: 10, quantity: 2 },
-          size: { width: 30, height: 100 },
-          direction: "right",
-          particles: {
-            shape: {
-              type: "images",
-              options: {
-                images: [
-                  {
-                    src: "https://particles.js.org/images/amongus_blue.png",
-                    width: 265,
-                    height: 265,
+    };
+
+    return {
+      ...baseConfig,
+      emitters: showEmitter
+        ? [
+            {
+              position: { x: -10, y: 50 },
+              life: {
+                count: 5, // Only once
+                duration: 0.1, // How long it emits (in seconds)
+                delay: 0, // Delay before emitting
+              },
+              size: { width: 30, height: 100 },
+              direction: "right",
+              particles: {
+                shape: {
+                  type: "images",
+                  options: {
+                    images: [
+                      {
+                        src: "https://particles.js.org/images/amongus_blue.png",
+                        width: 265,
+                        height: 265,
+                      },
+                      {
+                        src: "https://particles.js.org/images/amongus_cyan.png",
+                        width: 207,
+                        height: 265,
+                      },
+                      {
+                        src: "https://particles.js.org/images/amongus_green.png",
+                        width: 204,
+                        height: 266,
+                      },
+                      {
+                        src: "https://particles.js.org/images/amongus_lime.png",
+                        width: 206,
+                        height: 267,
+                      },
+                      {
+                        src: "https://particles.js.org/images/amongus_orange.png",
+                        width: 205,
+                        height: 265,
+                      },
+                      {
+                        src: "https://particles.js.org/images/amongus_pink.png",
+                        width: 205,
+                        height: 265,
+                      },
+                      {
+                        src: "https://particles.js.org/images/amongus_red.png",
+                        width: 204,
+                        height: 267,
+                      },
+                      {
+                        src: "https://particles.js.org/images/amongus_white.png",
+                        width: 205,
+                        height: 267,
+                      },
+                    ],
                   },
-                  {
-                    src: "https://particles.js.org/images/amongus_cyan.png",
-                    width: 207,
-                    height: 265,
-                  },
-                  {
-                    src: "https://particles.js.org/images/amongus_green.png",
-                    width: 204,
-                    height: 266,
-                  },
-                  {
-                    src: "https://particles.js.org/images/amongus_lime.png",
-                    width: 206,
-                    height: 267,
-                  },
-                  {
-                    src: "https://particles.js.org/images/amongus_orange.png",
-                    width: 205,
-                    height: 265,
-                  },
-                  {
-                    src: "https://particles.js.org/images/amongus_pink.png",
-                    width: 205,
-                    height: 265,
-                  },
-                  {
-                    src: "https://particles.js.org/images/amongus_red.png",
-                    width: 204,
-                    height: 267,
-                  },
-                  {
-                    src: "https://particles.js.org/images/amongus_white.png",
-                    width: 205,
-                    height: 267,
-                  },
-                ],
+                },
+                opacity: { value: 2 },
+                size: { value: 10 },
+                move: {
+                  speed: 5,
+                  outModes: { default: "destroy", left: "none" },
+                },
+                zIndex: { value: 0 },
+                rotate: {
+                  value: { min: 0, max: 360 },
+                  animation: { enable: true, speed: 4, sync: false },
+                },
               },
             },
-            opacity: { value: 2 },
-            size: { value: 10 },
-            move: {
-              speed: 5,
-              outModes: { default: "destroy", left: "none" },
-              // straight: true,
-            },
-            zIndex: { value: 0 },
-            rotate: {
-              value: { min: 0, max: 360 },
-              animation: { enable: true, speed: 4, sync: false },
-            },
-          },
-        },
-      ],
-    }),
-    []
-  );
+          ]
+        : undefined,
+    };
+  }, [showEmitter]);
 
   if (!init) return null;
 
@@ -180,9 +209,6 @@ const AmongusParticles = () => {
         options={options}
         className="w-full h-full"
       />
-      {/* <div className="relative z-10 w-full h-full flex flex-col items-center justify-center">
-        {children}
-      </div> */}
     </div>
   );
 };

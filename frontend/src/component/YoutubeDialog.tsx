@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +32,15 @@ const YoutubeDialog = ({ onClose }: ActionDialogProps) => {
   const [videoQuality, setVideoQuality] = useState("1080p");
   const [audioQuality, setAudioQuality] = useState("320");
   const [error, setError] = useState("");
+  const [notification, setNotification] = React.useState<{
+    isVisible: boolean;
+    type?: "success" | "error";
+    message: string;
+  }>({
+    isVisible: false,
+    type: "success",
+    message: "",
+  });
 
   useEffect(() => {
     // Clear video info when URL changes

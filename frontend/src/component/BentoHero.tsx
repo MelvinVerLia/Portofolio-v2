@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import PdfConverter from "./PdfConverter";
 import ImageConverter from "./ImageConverter";
 import YoutubeConverter from "./YoutubeConverter";
+import AnnoyingAvatar from "./AnnoyingAvatar";
 
 const BentoHero = () => {
   const [selectedTool, setSelectedTool] = useState(0);
@@ -11,34 +12,22 @@ const BentoHero = () => {
   const tools = [
     {
       name: "PDF Converter",
-      description: "pdf converter duh",
       icon: "📄",
       status: "Offline",
       component: PdfConverter,
     },
     {
       name: "Image Converter",
-      description: "image duh",
       icon: "wiwo",
       status: "Offline",
       component: ImageConverter,
     },
     {
       name: "Youtube Downloader",
-      description: "Mp3 Mp4 Shenanigans",
       icon: "wowo",
       status: "Offline",
       component: YoutubeConverter,
     },
-  ];
-
-  const skills = [
-    "React",
-    "Python",
-    "TypeScript",
-    "Node.js",
-    "AI/ML",
-    "Data Analysis",
   ];
 
   const SelectedToolComponent = tools[selectedTool].component;
@@ -55,55 +44,9 @@ const BentoHero = () => {
         {/* Dynamic Grid with fixed heights */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 h-[750px]">
           {/* Top Left - Profile (2x2 square) */}
-          <motion.div
-            className="md:col-span-2 md:row-span-2 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-purple-500/20 p-8 flex flex-col items-center justify-center h-full"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            <motion.div
-              className="w-32 h-32 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 mb-6 flex items-center justify-center overflow-hidden"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <img
-                src="dog.jpg"
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-
-            <h2 className="text-2xl font-bold text-white mb-2 text-center">
-              Milord Portolomeus
-            </h2>
-            <p className="text-gray-400 text-center mb-4">
-              CS Undergrad • Intern @Anabatic
-            </p>
-
-            {/* Skills */}
-            <div className="flex flex-wrap gap-2 justify-center mb-6">
-              {skills.map((skill, index) => (
-                <motion.span
-                  key={skill}
-                  className="px-3 py-1 bg-slate-700/50 text-gray-300 text-xs rounded-full border border-slate-600/30"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index }}
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </div>
-
-            {/* CV Download */}
-            <motion.button
-              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium transition-all duration-300 shadow-lg shadow-purple-600/30"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Download CV
-            </motion.button>
-          </motion.div>
+          <div className="md:col-span-2 md:row-span-2 bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-purple-500/20 p-0 flex flex-col justify-center items-center h-full w-[500px]">
+            <AnnoyingAvatar />
+          </div>
 
           {/* Top Right - Simple Info */}
           <motion.div
@@ -124,9 +67,7 @@ const BentoHero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{ height: "calc(750px - 200px - 24px)" }} // Total height minus top box minus gap
           >
-            <h3 className="text-xl font-bold text-white mb-4">
-              Useful Tools
-            </h3>
+            <h3 className="text-xl font-bold text-white mb-4">Useful Tools</h3>
 
             <div className="flex flex-wrap gap-2 mb-4 ">
               {tools.map((tool, index) => (

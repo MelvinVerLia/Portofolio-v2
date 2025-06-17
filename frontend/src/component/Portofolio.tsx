@@ -22,10 +22,6 @@ export default function Portfolio() {
         <div className="relative z-10">
           <BentoHero />
         </div>
-
-        {/* <AmongusParticles>
-          <BentoHero />
-        </AmongusParticles> */}
       </section>
 
       {/* EXPERIENCE SECTION */}
