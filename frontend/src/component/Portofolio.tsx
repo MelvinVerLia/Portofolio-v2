@@ -1,7 +1,6 @@
 import SkillsSection from "./SkillsSection";
 import Contact from "./Contact";
 import Projects from "./Projects";
-import Hero from "./Hero";
 import Experience from "./Experience";
 import AmongusParticles from "./AmogusParticles";
 import BentoHero from "./BentoHero";

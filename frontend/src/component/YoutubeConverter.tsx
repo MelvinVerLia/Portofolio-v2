@@ -1,6 +1,6 @@
-import { Film, Loader2, Music, Video, Youtube } from "lucide-react";
+import { Loader2, Music, Video, Youtube } from "lucide-react";
 import ConvertFinder from "../../API/ConvertFinder";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNotification } from "@/context/NotificationContextProvider";
@@ -42,7 +42,9 @@ const YoutubeConverter = () => {
   };
 
   const fetchVideoInfo = async () => {
-    if (!url) return;
+    if (!url) {
+      return;
+    }
     if (videoInfo) {
       setShowDialog(true);
       return;
@@ -58,7 +60,7 @@ const YoutubeConverter = () => {
       console.log("Error fetching video info:", err);
       showNotification(
         "error",
-        "Failed to fetch video information. Please check if the URL is valid."
+        "Server error while fetching video information. Please try again."
       );
     } finally {
       setFetchingInfo(false);
@@ -168,7 +170,13 @@ const YoutubeConverter = () => {
               </div>
 
               {videoInfo.description && (
-                <p className="text-sm text-gray-300 whitespace-pre-wrap max-h-48 overflow-y-auto">
+                <p
+                  className="text-sm text-gray-300 whitespace-pre-wrap max-h-48 overflow-y-auto px-3 custom-scrollbar"
+                  style={{
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "#9333ea #1f2937",
+                  }}
+                >
                   {videoInfo.description}
                 </p>
               )}

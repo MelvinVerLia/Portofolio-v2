@@ -7,7 +7,6 @@ import {
   Bot,
   User,
   MessageCircle,
-  X,
   Minimize2,
 } from "lucide-react";
 import ConvertFinder from "../../API/ConvertFinder";
@@ -21,6 +20,7 @@ const Chatbot = () => {
       timestamp: new Date(),
     },
   ]);
+  
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -38,7 +38,6 @@ const Chatbot = () => {
     });
   };
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     // Small delay to ensure DOM is updated with new content
     const timer = setTimeout(scrollToBottom, 100);
@@ -130,9 +129,7 @@ const Chatbot = () => {
   };
   const formatMessageText = (text: string) => {
     const parseInline = (line: string) => {
-      const parts = line
-        .split(/(\*\*[^*]+\*\*)/g) 
-        .filter(Boolean);
+      const parts = line.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
 
       return parts.map((part, index) => {
         if (part.startsWith("**") && part.endsWith("**")) {
@@ -160,16 +157,16 @@ const Chatbot = () => {
   if (isMinimized) {
     return (
       <motion.div
-        className="fixed bottom-4 right-4 z-50"
+        className="fixed bottom-5 right-5 z-50"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         <Button
           onClick={() => setIsMinimized(false)}
-          className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4"
+          className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-5 hover:cursor-pointer"
         >
-          <MessageCircle className="w-6 h-6" />
+          <MessageCircle className="w- h-6" />
         </Button>
       </motion.div>
     );
@@ -199,7 +196,7 @@ const Chatbot = () => {
               variant="ghost"
               size="sm"
               onClick={() => setIsMinimized(true)}
-              className="text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-lg p-2"
+              className="text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-lg p-2 hover:cursor-pointer transition-all duration-200"
             >
               <Minimize2 className="w-4 h-4" />
             </Button>
