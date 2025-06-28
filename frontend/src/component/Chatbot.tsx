@@ -20,7 +20,7 @@ const Chatbot = () => {
       timestamp: new Date(),
     },
   ]);
-  
+
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -174,9 +174,11 @@ const Chatbot = () => {
 
   return (
     <div
-      className="bg-gray-900 w-full h-full max-h-[750px] flex flex-col p-0 rounded-2xl"
+      className="bg-gray-900 w-sm flex flex-col p-0 rounded-2xl"
       style={{
         boxShadow: "0 0 20px 5px rgba(147, 51, 234, 0.8)",
+        height: "min(100%, 73vh)",
+        maxHeight: "73vh",
       }}
     >
       <div className="p-6 pb-4 border-b border-gray-700 shrink-0">

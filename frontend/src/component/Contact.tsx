@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { Loader2 } from "lucide-react";
-import CustomNotification from "./CustomNotification"; // Import the custom notification
+import CustomNotification from "./CustomNotification";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 const Contact = () => {
@@ -38,11 +38,10 @@ const Contact = () => {
     }));
   };
 
-  // Animation variants
   const fadeIn = {
     hidden: {
       opacity: 0,
-      y: 40, // move down slightly
+      y: 40,
     },
     visible: {
       opacity: 1,
@@ -54,7 +53,6 @@ const Contact = () => {
     },
   };
 
-  // Social media links
   const socialLinks = [
     {
       name: "GitHub",
@@ -75,7 +73,7 @@ const Contact = () => {
       color: "hover:text-indigo-400",
     },
   ];
-  // Social media icon component
+
   const SocialIcon: React.FC<{ icon: string }> = ({ icon }) => {
     switch (icon) {
       case "github":
@@ -289,20 +287,19 @@ const Contact = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`flex items-center p-3 rounded-lg bg-[#1a1a2e]/50 border border-purple-800/20 hover:bg-purple-900/20 transition-all duration-100 group ${link.color}`}
-                    whileHover={{ x: 5 }}
+                    whileHover={{ x: 3 }}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{
-                      duration: 0.1,
-                      delay: 0.1 + i * 0.1,
+                      duration: 0,
                       ease: "easeOut",
                     }}
                   >
-                    <div className="mr-3 text-gray-400 group-hover:text-current transition-colors">
+                    <div className="mr-3 text-gray-400 ">
                       <SocialIcon icon={link.icon} />
                     </div>
                     <span className="">{link.name}</span>
-                    <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="ml-auto">
                       <svg
                         className="w-4 h-4"
                         fill="none"

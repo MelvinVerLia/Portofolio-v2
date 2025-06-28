@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Loader2, Upload, FileText, X, Download } from "lucide-react";
+import { Loader2, Upload, FileText, X, Download, FileImage } from "lucide-react";
 
 const PdfConverter = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -84,7 +84,7 @@ const PdfConverter = () => {
             transition={{ type: "spring", stiffness: 600 }}
           >
             <motion.div
-              className={`border-2 border-dashed rounded-xl h-full flex flex-col items-center justify-center transition-all duration-450 ${
+              className={`border-2 border-dashed rounded-xl p-14 h-full flex flex-col items-center justify-center transition-all duration-450 ${
                 dragActive
                   ? "border-purple-400 bg-purple-500/10 shadow-lg shadow-purple-500/20"
                   : "border-purple-600/50 hover:border-purple-500 bg-slate-700/20 hover:bg-slate-700/30"
@@ -93,38 +93,33 @@ const PdfConverter = () => {
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
+              whileHover={{ scale: 1.01 }}
             >
-              <div className="flex flex-col items-center space-y-3 p-6">
+              <div className="flex flex-col items-center justify-center space-y-4">
                 <motion.div
-                  className="p-3 bg-purple-600/20 rounded-full border border-purple-500/30"
+                  className="p-4 bg-purple-600/20 rounded-full shadow-lg border-purple-500/30"
                   animate={dragActive ? bounceAnimation : { y: 0 }}
                   transition={dragActive ? bounceTransition : { duration: 0.2 }}
                 >
-                  <Upload className="w-8 h-8 text-purple-400" />
+                  <FileImage className="w-8 h-8 text-purple-400" />
                 </motion.div>
-                <div className="text-center">
-                  <p className="text-sm font-medium text-gray-200 mb-1">
-                    Drop your file here
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    or{" "}
-                    <span className="text-purple-400 font-medium">
-                      click to browse
-                    </span>
-                  </p>
+                <div className="text-sm text-gray-300">
+                  <span className="font-semibold text-white">
+                    Click to upload
+                  </span>{" "}
+                  or drag and drop
                 </div>
-                <div className="flex flex-col items-center text-xs font-medium y-2 text-gray-500">
-                  <span>PDF, DOC, DOCX</span>
-                  <span>Max 10MB</span>
+                <div className="text-xs text-gray-400">
+                  JPG, PNG, WEBP supported
                 </div>
+                <input
+                  type="file"
+                  id="pdf-file-upload"
+                  className="hidden"
+                  onChange={handleFileChange}
+                  accept=".pdf,.doc,.docx"
+                />
               </div>
-              <input
-                type="file"
-                id="pdf-file-upload"
-                className="hidden"
-                onChange={handleFileChange}
-                accept=".pdf,.doc,.docx"
-              />
             </motion.div>
           </motion.label>
         ) : (

@@ -89,7 +89,7 @@ const ImageConverter = () => {
           transition={{ type: "spring", stiffness: 600 }}
         >
           <motion.div
-            className={`border-2 border-dashed rounded-xl p-6 text-center h-full flex flex-col items-center justify-center transition-all duration-350 ${
+            className={`border-2 border-dashed rounded-xl p-14 h-full flex flex-col items-center justify-center transition-all duration-450 ${
               dragActive
                 ? "border-purple-400 bg-purple-500/10 shadow-lg shadow-purple-500/20"
                 : "border-purple-600/50 hover:border-purple-500 bg-slate-700/20 hover:bg-slate-700/30"

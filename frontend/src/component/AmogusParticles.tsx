@@ -21,7 +21,7 @@ const AmongusParticles = () => {
 
         if (nextIndex === konamiCode.length) {
           console.log("Konami code entered!");
-          const audio = new Audio("/sfx/amogus.mp3");
+          const audio = new Audio("/sfx/boom.mp3");
           audio.play();
           setAmongusParticles(true);
           setKonamiEntered(0);
@@ -146,7 +146,7 @@ const AmongusParticles = () => {
             y: 50,
           },
 
-          rate: { delay: 10, quantity: 5 },
+          rate: { delay: 5, quantity: 1 },
           size: { width: 30, height: 100 },
           direction: "right",
           particles: {
