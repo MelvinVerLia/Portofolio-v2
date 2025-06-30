@@ -59,7 +59,7 @@ const CertificateSection = () => {
   ];
 
   useEffect(() => {
-    if (isDialogOpen) return; // Pause if dialog is open
+    if (isDialogOpen) return;
 
     const step = (progressInterval / 5000) * 100;
 
@@ -72,7 +72,6 @@ const CertificateSection = () => {
         return prev + step;
       });
     }, progressInterval);
-
     return () => clearInterval(interval);
   }, [currentCert, isDialogOpen]); // reset timer every time cert changes
 
@@ -125,16 +124,21 @@ const CertificateSection = () => {
 
           {/* problem */}
           {/* <div className="space-x-0"> */}
-          <motion.span
-            className="text-sm text-gray-400"
-            key={currentCert}
-            initial={{ opacity: 0, y: -100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 3 }}
-          >
-            {currentCert + 1}
-          </motion.span>
-          <span className="text-sm text-gray-400">/{certificates.length}</span>
+          <motion.div>
+            <motion.span
+              className="text-sm text-gray-400"
+              key={currentCert}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {currentCert + 1}
+            </motion.span>
+            <span className="text-sm text-gray-400">
+              /{certificates.length}
+            </span>
+          </motion.div>
+
           {/* </div> */}
 
           <motion.button
@@ -252,13 +256,12 @@ const CertificateSection = () => {
                       <img
                         src={currentCertificate.image}
                         alt="Certificate"
-                        className="w-full h-auto"
+                        className="w-full h-auto object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t opacity-10" />
                     </div>
 
-                    <div className="p-8 space-y-6">
-                      <div className=" duration-500">
+                    <div className="p-6 space-y-4">
+                      <div>
                         <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
                           {currentCertificate.title}
                         </h3>
@@ -273,9 +276,6 @@ const CertificateSection = () => {
                       </div>
 
                       <div className="">
-                        <h4 className="text-white font-bold text-lg">
-                          About this certification
-                        </h4>
                         <p className="text-gray-300 leading-relaxed text-base">
                           {currentCertificate.description}
                         </p>
@@ -288,9 +288,9 @@ const CertificateSection = () => {
                             {currentCertificate.credentialId}
                           </span>
                         </div>
-                        <button className="flex items-center text-purple-400 hover:text-purple-300 font-bold transition-all duration-300 group hover:scale-105 bg-purple-500/10 hover:bg-purple-500/20 px-4 py-2 rounded-full border border-purple-500/30">
-                          <ExternalLink className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300" />
-                          Verify Certificate
+                        <button className="flex items-center justify-center text-purple-400 hover:text-purple-300 font-bold text-sm transition-all duration-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-2 rounded-full border border-purple-500/30 hover:cursor-pointer">
+                          <ExternalLink className="w-4 h-4 mr-2 transition-transform duration-300" />
+                          <div>Verify Certificate</div>
                         </button>
                       </div>
                     </div>

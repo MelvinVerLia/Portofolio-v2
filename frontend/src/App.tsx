@@ -1,11 +1,11 @@
 import "./App.css";
 import Portfolio from "./component/Portofolio";
 import { File, Play } from "lucide-react";
-
 import { FAB } from "./component/FAB";
 import { useState } from "react";
 import ActionDialog from "./component/ActionDialog";
 import { NotificationContextProvider } from "./context/NotificationContextProvider";
+import { HeroContextProvider } from "./context/HeroContextProvider";
 
 function App() {
   const [openDialog, setOpenDialog] = useState<
@@ -38,13 +38,14 @@ function App() {
   return (
     <>
       <NotificationContextProvider>
-        {/* <Navbar /> */}
-        <Portfolio />
-        <FAB actions={actions} position="bottom-right" />
-        <ActionDialog
-          type={openDialog}
-          onClose={() => setOpenDialog(null)}
-        ></ActionDialog>
+        <HeroContextProvider>
+          <Portfolio />
+          <FAB actions={actions} position="bottom-right" />
+          <ActionDialog
+            type={openDialog}
+            onClose={() => setOpenDialog(null)}
+          ></ActionDialog>
+        </HeroContextProvider>
       </NotificationContextProvider>
     </>
   );
