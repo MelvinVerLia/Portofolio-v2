@@ -1,8 +1,8 @@
-import SkillsSection from "./SkillsSection";
-import Contact from "./Contact";
-import Projects from "./Projects";
-import Experience from "./Experience";
-import AmongusParticles from "./AmogusParticles";
+import SkillsSection from "../FAB/SkillsSection";
+import Contact from "../section/Contact";
+import Projects from "../section/Projects";
+import Experience from "../section/Experience";
+import AmongusParticles from "../particle/AmogusParticles";
 import BentoHero from "./BentoHero";
 
 export default function Portfolio() {

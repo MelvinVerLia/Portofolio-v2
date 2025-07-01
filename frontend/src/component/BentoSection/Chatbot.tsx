@@ -9,7 +9,7 @@ import {
   MessageCircle,
   Minimize2,
 } from "lucide-react";
-import ConvertFinder from "../../API/ConvertFinder";
+import ConvertFinder from "../../../API/ConvertFinder";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([

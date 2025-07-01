@@ -1,4 +1,4 @@
-import CustomNotification from "@/component/CustomNotification";
+import CustomNotification from "@/component/misc/CustomNotification";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 type NotificationType = "success" | "error" | undefined;

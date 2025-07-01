@@ -1,8 +1,7 @@
 // ExperienceSection.jsx
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import { useState } from "react";
 
-// Experience data already included in your code
 const experiences = [
   {
     company: "Anabatic",

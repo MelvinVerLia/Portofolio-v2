@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Loader2, Upload, FileImage, X } from "lucide-react";
-import ConvertFinder from "../../API/ConvertFinder";
+import ConvertFinder from "../../../API/ConvertFinder";
 
 interface ActionDialogProps {
   onClose: () => void;
@@ -31,11 +31,9 @@ const ImageDialog = ({ onClose }: ActionDialogProps) => {
       formData.append("format", format);
       formData.append("quality", quality.toString());
 
-      const response = await ConvertFinder.post(
-        "/convert/image",
-        formData,
-        { responseType: "blob" }
-      );
+      const response = await ConvertFinder.post("/convert/image", formData, {
+        responseType: "blob",
+      });
 
       const blobUrl = window.URL.createObjectURL(response.data);
       const link = document.createElement("a");

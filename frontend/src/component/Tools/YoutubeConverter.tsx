@@ -1,5 +1,5 @@
 import { Loader2, Music, Video, Youtube } from "lucide-react";
-import ConvertFinder from "../../API/ConvertFinder";
+import ConvertFinder from "../../../API/ConvertFinder";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

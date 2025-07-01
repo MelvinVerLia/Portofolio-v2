@@ -5,7 +5,6 @@ import { useState } from "react";
 const Navbar = () => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
-  // Navigation links
   const navLinks = [
     { name: "home", label: "Home", delay: 0.2 },
     { name: "projects", label: "Projects", delay: 0.4 },

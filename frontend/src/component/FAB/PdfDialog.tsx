@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Loader2, Upload, FileText, X } from "lucide-react";
-import ConvertFinder from "../../API/ConvertFinder";
+import ConvertFinder from "../../../API/ConvertFinder";
 
 interface ActionDialogProps {
   onClose: () => void;

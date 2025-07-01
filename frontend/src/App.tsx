@@ -1,9 +1,9 @@
 import "./App.css";
-import Portfolio from "./component/Portofolio";
+import Portfolio from "./component/layout/Portofolio";
 import { File, Play } from "lucide-react";
-import { FAB } from "./component/FAB";
+import { FAB } from "./component/FAB/FAB";
 import { useState } from "react";
-import ActionDialog from "./component/ActionDialog";
+import ActionDialog from "./component/FAB/ActionDialog";
 import { NotificationContextProvider } from "./context/NotificationContextProvider";
 import { HeroContextProvider } from "./context/HeroContextProvider";
 

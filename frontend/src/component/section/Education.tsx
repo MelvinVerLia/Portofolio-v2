@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
-import React from "react";
 
-// Education data
 const education = [
   {
     school: "University of Computer Science",

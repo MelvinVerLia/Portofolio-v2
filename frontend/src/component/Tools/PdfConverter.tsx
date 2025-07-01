@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Loader2, Upload, FileText, X, Download, FileImage } from "lucide-react";
+import { Loader2, FileText, X, Download, FileImage } from "lucide-react";
 
 const PdfConverter = () => {
   const [isLoading, setIsLoading] = useState(false);

@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { Loader2 } from "lucide-react";
-import CustomNotification from "./CustomNotification";
+import CustomNotification from "../misc/CustomNotification";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 const Contact = () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Loader2, Youtube, Music, Video, Film } from "lucide-react";
-import ConvertFinder from "../../API/ConvertFinder";
+import ConvertFinder from "../../../API/ConvertFinder";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -32,7 +32,7 @@ const YoutubeDialog = ({ onClose }: ActionDialogProps) => {
   const [videoQuality, setVideoQuality] = useState("1080p");
   const [audioQuality, setAudioQuality] = useState("320");
   const [error, setError] = useState("");
-  const [notification, setNotification] = React.useState<{
+  const [notification, setNotification] = useState<{
     isVisible: boolean;
     type?: "success" | "error";
     message: string;

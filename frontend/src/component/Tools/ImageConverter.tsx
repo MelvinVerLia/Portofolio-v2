@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
-import ConvertFinder from "../../API/ConvertFinder";
-import { FileImage, Loader2, Upload, X } from "lucide-react";
+import ConvertFinder from "../../../API/ConvertFinder";
+import { FileImage, Loader2,  X } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {

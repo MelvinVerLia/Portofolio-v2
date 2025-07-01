@@ -17,7 +17,7 @@ import {
   X,
   Minimize2,
 } from "lucide-react";
-import ConvertFinder from "../../API/ConvertFinder";
+import ConvertFinder from "../../../API/ConvertFinder";
 
 interface ChatDialogProps {
   onClose: () => void;

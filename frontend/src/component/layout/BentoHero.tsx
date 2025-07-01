@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
-import AvatarSection from "./AvatarSection";
-import ToolSection from "./ToolSection";
-import CertificateSection from "./CertificateSection";
+import AvatarSection from "../BentoSection/AvatarSection";
+import ToolSection from "../FAB/ToolSection";
+import CertificateSection from "../BentoSection/CertificateSection";
 import { useHeroContext } from "@/context/HeroContextProvider";
 
 const BentoHero = () => {
   const { chatbot } = useHeroContext();
   return (
     <>
-      {/* {!chatbot && (
+      {chatbot && (
         <div className="w-full relative z-10">
           <div className="grid grid-cols-[1fr_1.5fr_1fr] gap-6">
             <motion.div
@@ -48,7 +48,7 @@ const BentoHero = () => {
             </motion.div>
           </div>
         </div>
-      )} */}
+      )}
 
       {!chatbot && (
         <div className="max-w-7xl w-full relative z-10">

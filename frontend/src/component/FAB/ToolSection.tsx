@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import PdfConverter from "./PdfConverter";
-import ImageConverter from "./ImageConverter";
-import YoutubeConverter from "./YoutubeConverter";
+import PdfConverter from "../Tools/PdfConverter";
+import ImageConverter from "../Tools/ImageConverter";
+import YoutubeConverter from "../Tools/YoutubeConverter";
 import { Youtube, File, Image } from "lucide-react";
 
 const ToolSection = () => {
@@ -33,7 +33,9 @@ const ToolSection = () => {
   const SelectedToolComponent = tools[selectedTool].component;
   return (
     <>
-      <h3 className="text-xl font-bold text-white mb-4 text-left">Useful Tools</h3>
+      <h3 className="text-xl font-bold text-white mb-4 text-left">
+        Useful Tools
+      </h3>
 
       <div className="flex flex-wrap gap-2 mb-4 ">
         {tools.map((tool, index) => (
