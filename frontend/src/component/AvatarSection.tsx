@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Chatbot from "./Chatbot";
-
+import { useHeroContext } from "@/context/HeroContextProvider";
 const phrases = [
   "Stop touching me.",
   "Seriously?",
@@ -15,14 +14,14 @@ const phrases = [
 const AvatarSection = () => {
   const [clickCount, setClickCount] = useState(0);
   const [showBubble, setShowBubble] = useState(false);
-  const [showChatbot, setShowChatbot] = useState(false);
   const [runaway, setRunaway] = useState({ x: 0, y: 0 });
+  const {setChatbot} = useHeroContext();
 
   const avatarRef = useRef(null);
 
   const handleClick = () => {
     if (clickCount >= 6) {
-      setShowChatbot(true);
+      setChatbot(true);
       return;
     }
 
@@ -51,10 +50,6 @@ const AvatarSection = () => {
   }, [clickCount]);
 
   const currentPhrase = phrases[Math.min(clickCount, phrases.length - 1)];
-
-  if (showChatbot) {
-    return <Chatbot />;
-  }
 
   return (
     <div className="relative flex flex-col items-center space-y-4">
