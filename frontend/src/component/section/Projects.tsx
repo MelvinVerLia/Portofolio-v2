@@ -58,7 +58,7 @@ const Projects = () => {
   };
 
   return (
-    <div>
+    <>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -160,7 +160,7 @@ const Projects = () => {
           </motion.div>
         ))}
       </motion.div>
-    </div>
+    </>
   );
 };
 

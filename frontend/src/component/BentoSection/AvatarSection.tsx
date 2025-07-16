@@ -15,11 +15,13 @@ const AvatarSection = () => {
   const [clickCount, setClickCount] = useState(0);
   const [showBubble, setShowBubble] = useState(false);
   const [runaway, setRunaway] = useState({ x: 0, y: 0 });
-  const {setChatbot} = useHeroContext();
+  const { setChatbot, chatbot } = useHeroContext();
 
   const avatarRef = useRef(null);
 
   const handleClick = () => {
+    console.log(clickCount);
+    console.log(chatbot);
     if (clickCount >= 6) {
       setChatbot(true);
       return;
@@ -34,7 +36,7 @@ const AvatarSection = () => {
   };
 
   const getRandomPosition = () => {
-    const x = Math.floor(Math.random() * 200 - 200);
+    const x = Math.floor(Math.random() * 200);
     const y = Math.floor(Math.random() * 400);
     return { x, y };
   };
@@ -44,7 +46,7 @@ const AvatarSection = () => {
 
     const interval = setInterval(() => {
       setRunaway(getRandomPosition());
-    }, 2000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [clickCount]);
@@ -56,18 +58,18 @@ const AvatarSection = () => {
       <motion.div
         className="relative"
         animate={runaway}
-        transition={{ type: "spring", stiffness: 300 }}
+        transition={{ type: "tween" }}
       >
         {/* Speech Bubble */}
         <AnimatePresence>
           {showBubble && (
             <motion.div
               key="bubble"
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: -30 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-sm px-12 py-4 rounded-xl shadow-md border border-purple-500 max-w-xs z-10"
+              className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-sm px-20 py-4 rounded-xl shadow-md border border-purple-500 max-w-lg z-10"
             >
               {currentPhrase}
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-zinc-800 border-l border-b border-purple-500 rotate-45 z-[-1]" />

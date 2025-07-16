@@ -4,6 +4,8 @@ import Projects from "../section/Projects";
 import Experience from "../section/Experience";
 import AmongusParticles from "../particle/AmogusParticles";
 import BentoHero from "./BentoHero";
+import KonamiHint from "../misc/KonamiHint";
+import { motion } from "framer-motion";
 
 export default function Portfolio() {
   return (
@@ -18,9 +20,18 @@ export default function Portfolio() {
         </div>
 
         {/* Content on top */}
-        <div className="relative z-10">
+        <div className="relative">
           <BentoHero />
         </div>
+
+        <motion.div
+          className="absolute top-2 left-2 w-[200px] h-[150px] z-20 bg-slate-800/10 rounded-2xl"
+          initial={{ opacity: 0, y: -200 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2, delay: 10 }}
+        >
+          <KonamiHint/>
+        </motion.div>
       </section>
 
       {/* EXPERIENCE SECTION */}
@@ -39,7 +50,7 @@ export default function Portfolio() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section id="contact" className="px-6 py-24 relative">
+      <section id="contact" className="px-6 py-24 relative mx-auto">
         <Contact />
       </section>
 

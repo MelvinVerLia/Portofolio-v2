@@ -137,7 +137,6 @@ const Contact = () => {
 
   return (
     <>
-      {/* Custom Notification */}
       <CustomNotification
         isVisible={notification.isVisible}
         type={notification.type}
@@ -151,7 +150,6 @@ const Contact = () => {
         <div className="absolute top-1/3 left-1/3 w-40 h-40 bg-indigo-600/10 rounded-full blur-3xl" />
       </div>
 
-      {/* Content */}
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial="hidden"
@@ -251,7 +249,7 @@ const Contact = () => {
             whileInView="visible"
             variants={fadeIn}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-[#1a1a2e]/70 backdrop-blur-sm border border-purple-800/30 rounded-2xl p-6 md:p-8 shadow-xl flex flex-col"
+            className="bg-[#1a1a2e]/70 backdrop-blur-sm border border-purple-800/30 rounded-2xl p-6 md:p-8 shadow-xl flex flex-col z-0"
           >
             <h3 className="text-xl font-bold text-purple-300 mb-6">
               Connect elsewhere

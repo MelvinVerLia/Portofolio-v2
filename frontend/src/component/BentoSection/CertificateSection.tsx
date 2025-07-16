@@ -19,7 +19,7 @@ const CertificateSection = () => {
       date: "2024",
       credentialId: "META-REACT-2024-1837",
       image:
-        "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=200&h=120&fit=crop&crop=center",
+        "",
       description:
         "Completed Meta's React Developer course covering hooks, component architecture, state management, and performance optimizations. Built real-world projects and passed all assessments.",
     },
@@ -30,7 +30,7 @@ const CertificateSection = () => {
       date: "2023",
       credentialId: "FCC-FSD-2023-8273",
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=120&fit=crop&crop=center",
+        "",
       description:
         "Earned by completing over 300 hours of coding challenges, building full stack projects with MongoDB, Express, React, and Node. Covered backend APIs, frontend UI, and database integration.",
     },
@@ -41,7 +41,7 @@ const CertificateSection = () => {
       date: "2024",
       credentialId: "AWS-ARCH-2024-4912",
       image:
-        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=200&h=120&fit=crop&crop=center",
+        "",
       description:
         "Covered AWS cloud services, architecture best practices, deployment, scalability, and cost management. Built hands-on projects involving EC2, S3, Lambda, and more.",
     },
@@ -52,7 +52,7 @@ const CertificateSection = () => {
       date: "2024",
       credentialId: "GCP-ML-2024-9117",
       image:
-        "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=200&h=120&fit=crop&crop=center",
+        "",
       description:
         "Learned machine learning fundamentals and how to implement models using Google Cloud tools like Vertex AI and BigQuery ML. Built classification and regression models with real datasets.",
     },
@@ -90,12 +90,7 @@ const CertificateSection = () => {
   const currentCertificate = certificates[currentCert];
 
   return (
-    <motion.div
-      className="w-full h-full flex flex-col"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <motion.div className="w-full h-full flex flex-col">
       <motion.div
         className="flex items-center justify-between mb-4"
         initial={{ opacity: 0, x: -20 }}
@@ -114,12 +109,12 @@ const CertificateSection = () => {
         <div className="flex items-center space-x-2">
           <motion.button
             onClick={prevCert}
-            className="p-1 rounded bg-slate-700/50 hover:bg-slate-600/50 text-white transition-colors"
+            className="p-1 rounded bg-slate-700/50 hover:bg-slate-600/50 text-white transition-colors hover:cursor-pointer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-5 h-5" />
           </motion.button>
 
           {/* problem */}
@@ -143,12 +138,12 @@ const CertificateSection = () => {
 
           <motion.button
             onClick={nextCert}
-            className="p-1 rounded bg-slate-700/50 hover:bg-slate-600/50 text-white transition-colors"
+            className="p-1 rounded bg-slate-700/50 hover:bg-slate-600/50 text-white transition-colors hover:cursor-pointer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-5 h-5 " />
           </motion.button>
         </div>
       </motion.div>

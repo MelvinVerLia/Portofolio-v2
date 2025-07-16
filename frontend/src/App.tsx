@@ -40,11 +40,11 @@ function App() {
       <NotificationContextProvider>
         <HeroContextProvider>
           <Portfolio />
-          <FAB actions={actions} position="bottom-right" />
+          {/* <FAB actions={actions} position="bottom-right" />
           <ActionDialog
             type={openDialog}
             onClose={() => setOpenDialog(null)}
-          ></ActionDialog>
+          ></ActionDialog> */}
         </HeroContextProvider>
       </NotificationContextProvider>
     </>

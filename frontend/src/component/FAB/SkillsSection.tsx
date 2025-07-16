@@ -68,7 +68,7 @@ const SkillsSection = () => {
   ];
 
   return (
-    <section id="skills" className="px-6 py-20 max-w-6xl mx-auto">
+    <>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -125,7 +125,7 @@ const SkillsSection = () => {
           </motion.div>
         ))}
       </motion.div>
-    </section>
+    </>
   );
 };
 
