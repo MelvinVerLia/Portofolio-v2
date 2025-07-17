@@ -11,6 +11,16 @@ const phrases = [
   "Fine. Whatever.",
 ];
 
+const surrenderPhrases = [
+  "I Yield.",
+  "You win.",
+  "You win.",
+  "You win.",
+  "You win.",
+  "You win.",
+  "You win.",
+];
+
 const AvatarSection = () => {
   const [clickCount, setClickCount] = useState(0);
   const [showBubble, setShowBubble] = useState(false);
@@ -20,14 +30,20 @@ const AvatarSection = () => {
   const avatarRef = useRef(null);
 
   const handleClick = () => {
-    console.log(clickCount);
-    console.log(chatbot);
     if (clickCount >= 6) {
       setChatbot(true);
       return;
     }
 
     setClickCount((prev) => prev + 1);
+    setShowBubble(true);
+
+    setTimeout(() => {
+      setShowBubble(false);
+    }, 1000);
+  };
+
+  const handleSurrender = () => {
     setShowBubble(true);
 
     setTimeout(() => {
@@ -42,8 +58,9 @@ const AvatarSection = () => {
   };
 
   useEffect(() => {
-    if (clickCount < 3) return;
-
+    if (clickCount < 3) {
+      return;
+    }
     const interval = setInterval(() => {
       setRunaway(getRandomPosition());
     }, 1000);
@@ -51,7 +68,17 @@ const AvatarSection = () => {
     return () => clearInterval(interval);
   }, [clickCount]);
 
+  useEffect(() => {
+    if (chatbot) {
+      setClickCount(0);
+      setRunaway({ x: 0, y: 0 });
+    }
+  }, [chatbot]);
+
   const currentPhrase = phrases[Math.min(clickCount, phrases.length - 1)];
+
+  const currentSurrender =
+    surrenderPhrases[Math.floor(Math.random() * surrenderPhrases.length)];
 
   return (
     <div className="relative flex flex-col items-center space-y-4">
@@ -71,7 +98,7 @@ const AvatarSection = () => {
               transition={{ duration: 0.3 }}
               className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-sm px-20 py-4 rounded-xl shadow-md border border-purple-500 max-w-lg z-10"
             >
-              {currentPhrase}
+              {chatbot ? currentSurrender : currentPhrase}
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-zinc-800 border-l border-b border-purple-500 rotate-45 z-[-1]" />
             </motion.div>
           )}
@@ -81,7 +108,7 @@ const AvatarSection = () => {
           ref={avatarRef}
           src="/dog.jpg"
           alt="avatar"
-          onClick={handleClick}
+          onClick={chatbot ? handleSurrender : handleClick}
           whileHover={{ scale: 1.2 }}
           className="w-24 h-24 rounded-full border-2 border-purple-500 cursor-pointer"
         />
@@ -89,10 +116,8 @@ const AvatarSection = () => {
 
       {/* Name and Role */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-1">
-          Milord Portolomeus
-        </h2>
-        <p className="text-gray-400 mb-4">CS Undergrad • Intern @Anabatic</p>
+        <h2 className="text-2xl font-bold text-white mb-1">Portolomeus</h2>
+        <p className="text-gray-400 mb-4">CS Undergraduate • Anabatic Intern</p>
 
         <motion.button
           className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium transition-all duration-300 shadow-lg shadow-purple-600/30"

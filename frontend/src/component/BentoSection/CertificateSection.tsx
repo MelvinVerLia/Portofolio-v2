@@ -9,7 +9,7 @@ const CertificateSection = () => {
   const [progress, setProgress] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const progressInterval = 100; // ms
+  const progressInterval = 100; 
 
   const certificates = [
     {
@@ -19,7 +19,7 @@ const CertificateSection = () => {
       date: "2024",
       credentialId: "META-REACT-2024-1837",
       image:
-        "",
+        "../public/author.png",
       description:
         "Completed Meta's React Developer course covering hooks, component architecture, state management, and performance optimizations. Built real-world projects and passed all assessments.",
     },
@@ -30,61 +30,39 @@ const CertificateSection = () => {
       date: "2023",
       credentialId: "FCC-FSD-2023-8273",
       image:
-        "",
+        "../public/presenter.png",
       description:
         "Earned by completing over 300 hours of coding challenges, building full stack projects with MongoDB, Express, React, and Node. Covered backend APIs, frontend UI, and database integration.",
-    },
-    {
-      id: 3,
-      title: "Cloud Architecture",
-      issuer: "AWS",
-      date: "2024",
-      credentialId: "AWS-ARCH-2024-4912",
-      image:
-        "",
-      description:
-        "Covered AWS cloud services, architecture best practices, deployment, scalability, and cost management. Built hands-on projects involving EC2, S3, Lambda, and more.",
-    },
-    {
-      id: 4,
-      title: "ML Specialist",
-      issuer: "Google Cloud",
-      date: "2024",
-      credentialId: "GCP-ML-2024-9117",
-      image:
-        "",
-      description:
-        "Learned machine learning fundamentals and how to implement models using Google Cloud tools like Vertex AI and BigQuery ML. Built classification and regression models with real datasets.",
-    },
+    }
   ];
 
   useEffect(() => {
     if (isDialogOpen) return;
-
-    const step = (progressInterval / 5000) * 100;
+    
+    const step = (progressInterval / 10000) * 100;
 
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev + step >= 100) {
-          nextCert(); // auto slide
+          nextCert(); 
           return 0;
         }
         return prev + step;
       });
     }, progressInterval);
     return () => clearInterval(interval);
-  }, [currentCert, isDialogOpen]); // reset timer every time cert changes
+  }, [isDialogOpen]); 
 
   const nextCert = () => {
     setCurrentCert((prev) => (prev + 1) % certificates.length);
-    setProgress(0); // reset progress when changing cert
+    setProgress(0); 
   };
 
   const prevCert = () => {
     setCurrentCert(
       (prev) => (prev - 1 + certificates.length) % certificates.length
     );
-    setProgress(0); // reset progress when changing cert
+    setProgress(0); 
   };
 
   const currentCertificate = certificates[currentCert];
@@ -112,13 +90,11 @@ const CertificateSection = () => {
             className="p-1 rounded bg-slate-700/50 hover:bg-slate-600/50 text-white transition-colors hover:cursor-pointer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             <ChevronLeft className="w-5 h-5" />
           </motion.button>
 
-          {/* problem */}
-          {/* <div className="space-x-0"> */}
           <motion.div>
             <motion.span
               className="text-sm text-gray-400"
@@ -134,14 +110,12 @@ const CertificateSection = () => {
             </span>
           </motion.div>
 
-          {/* </div> */}
-
           <motion.button
             onClick={nextCert}
             className="p-1 rounded bg-slate-700/50 hover:bg-slate-600/50 text-white transition-colors hover:cursor-pointer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             <ChevronRight className="w-5 h-5 " />
           </motion.button>

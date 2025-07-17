@@ -1,4 +1,7 @@
 const sharp = require("sharp");
+const pdf = require("pdf-poppler");
+const fs = require("fs-extra");
+const path = require("path");
 
 const image_converter = async (req, res) => {
   if (!req.file) {
@@ -42,8 +45,6 @@ const image_converter = async (req, res) => {
       `attachment; filename=converted.${outputExt}`
     );
     res.send(buffer);
-    // const fileStream = fs.createReadStream(buffer);
-    // fileStream.pipe(res);
   } catch (error) {
     console.log(error);
     res.status(404).json({
@@ -53,4 +54,7 @@ const image_converter = async (req, res) => {
   }
 };
 
-module.exports = { image_converter };
+module.exports = { 
+  image_converter, 
+
+};

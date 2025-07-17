@@ -246,7 +246,7 @@ const Chatbot = () => {
                     stiffness: 300,
                     damping: 25,
                   }}
-                  className={`flex items-start gap-3 text-[14px] ${
+                  className={`flex items-start gap-3 text-[13px] ${
                     message.sender === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
@@ -303,7 +303,7 @@ const Chatbot = () => {
                 </div>
                 <div className="bg-gray-800 p-4 rounded-lg">
                   <div className="flex items-center gap-2 text-gray-400">
-                    <span>Bob is typing</span>
+                    <span className="text-[13px]">Bob is typing</span>
                     <div className="flex gap-1">
                       {[0, 150, 300].map((delay, i) => (
                         <motion.div
@@ -345,7 +345,7 @@ const Chatbot = () => {
                   onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me about Melvin's experience, projects, or anything else..."
-                  className="w-full py-2 px-2 text-[11px] bg-gray-800/60 border border-gray-600/40 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 resize-none custom-scrollbar backdrop-blur-sm transition-all duration-200 hover:bg-gray-800/80"
+                  className="w-full py-2 px-2 text-[12px] bg-gray-800/60 border border-gray-600/40 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 resize-none custom-scrollbar backdrop-blur-sm transition-all duration-200 hover:bg-gray-800/80"
                   style={{
                     scrollbarWidth: "thin",
                     scrollbarColor: "#9333ea #1f2937",
