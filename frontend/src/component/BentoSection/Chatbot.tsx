@@ -63,6 +63,9 @@ const Chatbot = () => {
   }, [inputMessage]);
 
   const sendMessage = async () => {
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
     if (!inputMessage.trim() || isLoading) return;
 
     const userMessage = {
@@ -74,14 +77,14 @@ const Chatbot = () => {
 
     setMessages((prev) => [...prev, userMessage]);
     setInputMessage("");
-    setIsLoading(true);
     setError("");
+    setIsLoading(true);
+    await sleep(2000);
 
     try {
       const response = await ConvertFinder.post("/chat", {
         prompt: inputMessage,
       });
-      setTimeout(() => {}, 2000);
       const data = await response.data.response;
       console.log("Response data:", data);
 
@@ -107,8 +110,14 @@ const Chatbot = () => {
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
+      const botMessage = {
+        id: Date.now() + 1,
+        text: "My little helper is not braining right now. Please try again later.",
+        sender: "error",
+        timestamp: new Date(),
+      };
       console.error("Chat error:", error);
-      setError("Failed to send message. Please try again.");
+      setMessages((prev) => [...prev, botMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -201,7 +210,7 @@ const Chatbot = () => {
             height: "70vh",
           }}
         >
-          <div className="p-6 pb-4 border-b border-gray-700 shrink-0">
+          <div className="p-6 pb-4 border-b border-gray-700 bg-gradient-to-r from-purple-900/30 to-pink-900/20 shrink-0">
             <div className="flex justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-purple-900/50 rounded-lg">
@@ -250,7 +259,7 @@ const Chatbot = () => {
                     message.sender === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
-                  {message.sender === "bot" && (
+                  {(message.sender === "bot" || message.sender === "error") && (
                     <div className="p-2 bg-purple-900/30 rounded-full">
                       <Bot className="w-5 h-5 text-purple-400" />
                     </div>
@@ -261,8 +270,10 @@ const Chatbot = () => {
                     transition={{ type: "spring", stiffness: 400 }}
                     className={`max-w-[70%] p-4 rounded-lg shadow-lg text-left ${
                       message.sender === "user"
-                        ? "bg-purple-600 text-white"
-                        : "bg-gray-800 text-gray-100"
+                        ? "bg-purple-600 text-gray-100"
+                        : message.sender === "bot"
+                        ? "bg-gray-800 text-gray-100"
+                        : "bg-red-900 text-red-300"
                     }`}
                   >
                     <div className="leading-normal break-words whitespace-pre-wrap">
@@ -271,8 +282,10 @@ const Chatbot = () => {
                     <div
                       className={`text-[10px] mt-2 ${
                         message.sender === "user"
-                          ? "text-purple-200"
-                          : "text-gray-400"
+                        ? "text-purple-200"
+                        : message.sender === "bot"
+                        ? "text-gray-400"
+                        : "text-red-300"
                       }`}
                     >
                       {message.timestamp.toLocaleTimeString([], {
@@ -296,7 +309,7 @@ const Chatbot = () => {
                 className="flex items-start gap-3"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.3, delay: 0. }}
               >
                 <div className="p-2 bg-purple-900/30 rounded-full">
                   <Bot className="w-5 h-5 text-purple-400" />
@@ -326,17 +339,8 @@ const Chatbot = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {error && (
-            <div className="mx-6 mb-2 shrink-0 p-4 bg-gradient-to-r from-red-900/30 to-pink-900/30 border border-red-500/30 rounded-xl backdrop-blur-sm animate-in slide-in-from-top-2">
-              <p className="text-red-300 text-sm flex items-center gap-2">
-                <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></span>
-                {error}
-              </p>
-            </div>
-          )}
-
           {/* Input Area */}
-          <div className="p-6 pt-4 shrink-0 rounded-2xl border-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm bg-gray-900/50">
+          <div className="p-6 pt-4 shrink-0 rounded-2xl border-gradient-to-r purple-900/20 backdrop-blur-sm bg-gray-900/50">
             <div className="flex items-end gap-3">
               <div className="flex-1 relative">
                 <textarea
@@ -345,7 +349,7 @@ const Chatbot = () => {
                   onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me about Melvin's experience, projects, or anything else..."
-                  className="w-full py-2 px-2 text-[12px] bg-gray-800/60 border border-gray-600/40 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 resize-none custom-scrollbar backdrop-blur-sm transition-all duration-200 hover:bg-gray-800/80"
+                  className="w-full py-2 px-2 text-[12px] bg-gray-800/50 border border-gray-600/40 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 resize-none custom-scrollbar backdrop-blur-sm transition-all duration-200 hover:bg-gray-800/80"
                   style={{
                     scrollbarWidth: "thin",
                     scrollbarColor: "#9333ea #1f2937",
@@ -361,7 +365,7 @@ const Chatbot = () => {
               <Button
                 onClick={sendMessage}
                 disabled={!inputMessage.trim() || isLoading}
-                className="bg-purple-600 hover:bg-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white hover:cursor-pointer transition-all duration-300 p-4 rounded-xl shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed group self-center  "
+                className="bg-purple-600 hover:bg-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white hover:cursor-pointer transition-all duration-300 p-4 rounded-xl shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed group self-center"
               >
                 {isLoading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

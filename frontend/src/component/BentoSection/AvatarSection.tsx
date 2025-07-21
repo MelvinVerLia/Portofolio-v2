@@ -30,7 +30,7 @@ const AvatarSection = () => {
   const avatarRef = useRef(null);
 
   const handleClick = () => {
-    if (clickCount >= 6) {
+    if (clickCount >= 1) {
       setChatbot(true);
       return;
     }

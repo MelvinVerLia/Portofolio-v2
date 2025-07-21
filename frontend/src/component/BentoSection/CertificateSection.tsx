@@ -5,67 +5,92 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const CertificateSection = () => {
   const [currentCert, setCurrentCert] = useState(0);
+  const [currentCertDetail, setCurrentCertDetail] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [initialLoad, setInitialLoad] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [direction, setDirection] = useState<"left" | "right" | null>("right");
 
-  const progressInterval = 100; 
+  const progressInterval = 100;
 
   const certificates = [
     {
       id: 1,
-      title: "React Developer",
-      issuer: "Meta",
       date: "2024",
       credentialId: "META-REACT-2024-1837",
-      image:
-        "../public/author.png",
+      image: "../author.png",
+      issuer: "ICIMCIS",
       description:
         "Completed Meta's React Developer course covering hooks, component architecture, state management, and performance optimizations. Built real-world projects and passed all assessments.",
+      proof: "https://ieeexplore.ieee.org/abstract/document/10957360",
     },
     {
       id: 2,
-      title: "Full Stack Dev",
-      issuer: "FreeCodeCamp",
-      date: "2023",
+      date: "2024",
       credentialId: "FCC-FSD-2023-8273",
-      image:
-        "../public/presenter.png",
+      image: "../presenter.png",
+      issuer: "ICIMCIS",
       description:
         "Earned by completing over 300 hours of coding challenges, building full stack projects with MongoDB, Express, React, and Node. Covered backend APIs, frontend UI, and database integration.",
-    }
+      proof: "https://ieeexplore.ieee.org/abstract/document/10957360",
+    },
   ];
 
   useEffect(() => {
     if (isDialogOpen) return;
-    
+
     const step = (progressInterval / 10000) * 100;
 
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev + step >= 100) {
-          nextCert(); 
+          nextCert();
           return 0;
         }
         return prev + step;
       });
     }, progressInterval);
     return () => clearInterval(interval);
-  }, [isDialogOpen]); 
+  }, [isDialogOpen]);
 
+  useEffect(() => {
+    setCurrentCertDetail(currentCert);
+    setInitialLoad(true);
+    setDirection(null);
+  }, [isDialogOpen]);
+
+  const nextCertDetails = () => {
+    setDirection("right");
+    setInitialLoad(false);
+    setTimeout(() => {
+      setCurrentCertDetail((prev) => (prev + 1) % certificates.length);
+    }, 0);
+  };
+
+  const prevCertDetails = () => {
+    setDirection("left");
+    setInitialLoad(false);
+    setTimeout(() => {
+      setCurrentCertDetail(
+        (prev) => (prev - 1 + certificates.length) % certificates.length
+      );
+    }, 0);
+  };
   const nextCert = () => {
     setCurrentCert((prev) => (prev + 1) % certificates.length);
-    setProgress(0); 
+    setProgress(0);
   };
 
   const prevCert = () => {
     setCurrentCert(
       (prev) => (prev - 1 + certificates.length) % certificates.length
     );
-    setProgress(0); 
+    setProgress(0);
   };
 
   const currentCertificate = certificates[currentCert];
+  const currentCertificateDetail = certificates[currentCertDetail];
 
   return (
     <motion.div className="w-full h-full flex flex-col">
@@ -73,7 +98,7 @@ const CertificateSection = () => {
         className="flex items-center justify-between mb-4"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        transition={{ duration: 0.6 }}
       >
         <div className="flex items-center">
           <motion.div
@@ -122,7 +147,6 @@ const CertificateSection = () => {
         </div>
       </motion.div>
 
-      {/* Certificate Display */}
       <div className="flex-1 flex flex-col">
         <AnimatePresence mode="wait">
           <motion.div
@@ -134,6 +158,7 @@ const CertificateSection = () => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <Dialog
+              open={isDialogOpen}
               onOpenChange={(open) => {
                 setIsDialogOpen(open);
                 if (open) setProgress(0);
@@ -150,8 +175,7 @@ const CertificateSection = () => {
                   <div className="relative w-full h-60 rounded-lg overflow-hidden">
                     <motion.img
                       src={currentCertificate.image}
-                      alt={currentCertificate.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                     />
@@ -172,20 +196,10 @@ const CertificateSection = () => {
                     className="absolute top-2 right-2"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
                   >
                     <span className="bg-purple-600 text-white px-2 py-1 rounded text-xs font-medium">
-                      {currentCertificate.issuer} | {currentCertificate.date}
-                    </span>
-                  </motion.div>
-                  <motion.div
-                    className="absolute top-2 left-2 flex space-x-2"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: 0.2 }}
-                  >
-                    <span className="bg-purple-600 text-white px-2 py-1 rounded text-xs font-medium">
-                      {currentCertificate.title}
+                      {currentCertificate.date}
                     </span>
                   </motion.div>
 
@@ -213,65 +227,93 @@ const CertificateSection = () => {
               </DialogTrigger>
 
               <DialogContent className="max-w-5xl p-0 border-none bg-transparent">
-                <motion.div
-                  key={currentCertificate.id}
-                  initial={{ opacity: 0, scale: 0.95, y: 50 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 50 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  <div className="bg-slate-900/95 backdrop-blur-xl rounded-2xl overflow-hidden border border-slate-700/50 shadow-2xl">
-                    <div className="relative">
-                      <img
-                        src={currentCertificate.image}
-                        alt="Certificate"
-                        className="w-full h-auto object-cover"
-                      />
-                    </div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentCertificateDetail.id}
+                    initial={{
+                      opacity: 0,
+                      scale: initialLoad ? 0 : 1,
+                      x: initialLoad ? 0 : direction === "right" ? -200 : 200,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 1,
+                      x: direction === "right" ? 200 : -200,
+                    }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="bg-gradient-to-br from-slate-900/98 to-slate-800/95 backdrop-blur-2xl rounded-3xl overflow-hidden border border-slate-700/50 shadow-2xl"
+                  >
+                    <div className="bg-gradient-to-br from-slate-900/98 to-slate-800/95 backdrop-blur-2xl rounded-3xl overflow-hidden border border-slate-700/50 shadow-2xl">
+                      <motion.div className="relative">
+                        <AnimatePresence>
+                          <motion.img
+                            src={currentCertificateDetail.image}
+                            alt="Certificate"
+                            className="w-full h-auto object-cover"
+                          />
+                        </AnimatePresence>
+                      </motion.div>
 
-                    <div className="p-6 space-y-4">
-                      <div>
-                        <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-                          {currentCertificate.title}
-                        </h3>
-                        <div className="flex items-center space-x-4 text-purple-400 font-bold">
-                          <span className="flex items-center">
-                            <Award className="w-4 h-4 mr-2" />
-                            {currentCertificate.issuer}
-                          </span>
-                          <span className="text-slate-400">•</span>
-                          <span>{currentCertificate.date}</span>
+                      <motion.button
+                        onClick={nextCertDetails}
+                        whileHover={{ cursor: "pointer" }}
+                        className="absolute right-2 top-1/2 flex justify-center items-center transform -translate-y-1/2 p-3 rounded-full bg-black/50 hover:bg-black/70 text-white  group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-10"
+                      >
+                        <ChevronRight className="w-7 h-7 " />
+                      </motion.button>
+
+                      <motion.button
+                        onClick={prevCertDetails}
+                        whileHover={{ cursor: "pointer" }}
+                        className="absolute left-2 top-1/2 flex justify-center items-center transform -translate-y-1/2 p-3 rounded-full bg-black/50 hover:bg-black/70 text-white  group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm z-10"
+                      >
+                        <ChevronLeft className="w-7 h-7" />
+                      </motion.button>
+
+                      <div className="p-6 space-y-4">
+                        <div>
+                          <div className="flex items-center space-x-4 text-purple-400 font-bold">
+                            <span className="flex items-center">
+                              <Award className="w-4 h-4 mr-2" />
+                              {currentCertificateDetail.issuer}
+                            </span>
+                            <span className="text-slate-400">•</span>
+                            <span>{currentCertificateDetail.date}</span>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="">
                         <p className="text-gray-300 leading-relaxed text-base">
-                          {currentCertificate.description}
+                          {currentCertificateDetail.description}
                         </p>
-                      </div>
 
-                      <div className="flex items-center justify-between pt-6 border-t border-slate-700/50">
-                        <div className="text-sm text-gray-400">
-                          <span className="font-medium">Credential ID: </span>
-                          <span className="font-mono text-gray-300 bg-slate-800/50 px-2 py-1 rounded">
-                            {currentCertificate.credentialId}
-                          </span>
+                        <div className="flex items-center justify-between pt-6 border-t border-slate-700/50">
+                          <div className="text-sm text-gray-400">
+                            <span className="font-medium">Credential ID: </span>
+                            <span className="font-mono text-gray-300 bg-slate-800/50 px-2 py-1 rounded">
+                              {currentCertificateDetail.credentialId}
+                            </span>
+                          </div>
+                          <button
+                            className="flex items-center justify-center text-purple-400 hover:text-purple-300 font-bold text-sm transition-all duration-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-2 rounded-full border border-purple-500/30 hover:cursor-pointer"
+                            onClick={() =>
+                              window.open(currentCertificateDetail.proof)
+                            }
+                          >
+                            <ExternalLink className="w-4 h-4 mr-2 transition-transform duration-300" />
+                            <div>Verify Certificate</div>
+                          </button>
                         </div>
-                        <button className="flex items-center justify-center text-purple-400 hover:text-purple-300 font-bold text-sm transition-all duration-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-2 rounded-full border border-purple-500/30 hover:cursor-pointer">
-                          <ExternalLink className="w-4 h-4 mr-2 transition-transform duration-300" />
-                          <div>Verify Certificate</div>
-                        </button>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </AnimatePresence>
               </DialogContent>
             </Dialog>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Dots Indicator */}
       <motion.div
         className="flex justify-center space-x-1"
         initial={{ opacity: 0, y: 20 }}
